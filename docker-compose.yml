@@ -1,0 +1,44 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-AiSecretary
+    ports:
+      - "5679:5678"
+    environment:
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - NODEJS_PREFER_IPV4=true
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo
+    container_name: mongodb-AiSecretary
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama-AiSecretary
+    ports:
+      - "11435:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  mongodb_data:
