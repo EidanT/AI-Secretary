@@ -1,0 +1,10 @@
+body {
+    background: rgb(11, 0, 26);
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    color: white;
+    font-size: 100px;
+}
