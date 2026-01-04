@@ -6,8 +6,6 @@ import Home from './screens/home';
 import './app.css'
 
 export default function App() {
-
-  
   return (
       <Router>
         <Routes>
@@ -17,4 +15,3 @@ export default function App() {
       </Router>
   )
 }
-

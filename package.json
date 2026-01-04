@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "name": "ai-secretary-root",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix AI-Secretary\" \"npm run dev --prefix backend\""
+  }
+}

@@ -1,10 +1,11 @@
-body {
-    background: rgb(11, 0, 26);
-    align-items: center;
-    justify-content: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-h1 {
-    color: white;
-    font-size: 100px;
+body {
+    background: rgb(18, 1, 43);
+    width: 100%;
+    overflow-x: hidden;
 }
