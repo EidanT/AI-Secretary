@@ -43,7 +43,7 @@ export default function Signup() {
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID!,
         redirect_uri: "http://localhost:5173/signup",
         response_type: "code",
-        scope: "openid email profile",
+        scope: "openid email profile https://www.googleapis.com/auth/calendar",
         access_type: "offline",
         prompt: "consent",
       }).toString();
@@ -55,7 +55,7 @@ export default function Signup() {
     <div>
       <h2>Signup / Login</h2>
 
-      <button onClick={redirectToGoogle}>
+      <button className="signup-button" onClick={redirectToGoogle}>
         Login con Google
       </button>
 
