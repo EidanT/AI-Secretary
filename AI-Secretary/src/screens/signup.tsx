@@ -14,15 +14,17 @@ export default function Signup() {
     if (!code) return;
 
     const exchangeCode = async () => {
+      setLoading(true);
       try {
-        await fetch("http://localhost:3000/auth/google", {
+        await fetch("http://localhost:3000/api/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
         })
         .then(res => res.json())
         .then(data => {
-          localStorage.setItem("user", JSON.stringify(data.user));
+          const { refresh_token, ...safeUser } = data.user;
+          localStorage.setItem("user", JSON.stringify(safeUser));
           navigate("/");
         })
 
@@ -43,7 +45,7 @@ export default function Signup() {
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID!,
         redirect_uri: "http://localhost:5173/signup",
         response_type: "code",
-        scope: "openid email profile https://www.googleapis.com/auth/calendar",
+        scope: "openid email profile https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.modify",
         access_type: "offline",
         prompt: "consent",
       }).toString();
