@@ -2,6 +2,10 @@ import { useEffect, useState, useRef, Activity } from "react";
 import { FaSignOutAlt, FaArrowCircleRight } from "react-icons/fa"
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import { BeatLoader } from "react-spinners";
+import ReactMarkdown from "react-markdown";
+
+
 
 import './css/home.css'
 
@@ -10,7 +14,6 @@ interface User {
   name: string;
   email: string;
   picture: string;
-  refresh_token: string
 }
 
 type Message = {
@@ -27,9 +30,12 @@ export default function Home() {
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const boxRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [isAgentTyping, setIsAgentTyping] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const [isEnterButtonDisabled, setEnterButtonDisabled] = useState(false);
+
 
   const navigate = useNavigate(); 
-  
   
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -89,6 +95,8 @@ export default function Home() {
     });
     
     socket.on("receive_message", (data: { text: string }) => {
+      setIsAgentTyping(false);
+      setEnterButtonDisabled(false);
       setMessages(prev => [...prev, { text: data.text, sender: "agent" }]);
     });
     
@@ -96,18 +104,28 @@ export default function Home() {
       socket.disconnect();
     };
   }, [user]);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, isAgentTyping]);
   
   if (!user) return <p>No hay usuario logueado</p>;
   
   const sendMessage = (text: string) => {
+    const name = user.name;
+    const email = user.email;
+    
     if (!text.trim()) return;
     if (!socketRef.current) return;
-    
+
     const userMsg: Message = { text, sender: "user" };
     setMessages(prev => [...prev, userMsg]);
     
-    socketRef.current.emit("send_message", { text });
+    setIsAgentTyping(true);
+    setEnterButtonDisabled(true);
+    socketRef.current.emit("send_message", { text, name, email });
   };
+
   
   
   return (
@@ -134,17 +152,51 @@ export default function Home() {
         </div>
       </Activity>
 
-      <div className="textArea">
-        <textarea ref={textAreaRef} 
-                  name="" 
-                  id="" 
-                  placeholder="What are we doing today boss?"
-                  onInput={handleInput}
-        />
+      <div className="chatContainer">
+        {messages.map((msg, index) => (
+          <div 
+            key={index}
+            className={`messageBubble ${
+            msg.sender === "user" ? "userBubble" : "agentBubble"
+            }`}
+          >
+          <div className="messageText">
+            <ReactMarkdown>
+              {msg.text}
+            </ReactMarkdown>
+          </div>
+          </div>
+        ))};
 
-        <button className="enterButton" onClick={() => sendMessage(textAreaRef.current?.value ?? "")}>
-            <FaArrowCircleRight color={"white"} size={38}/>
-        </button>
+        {isAgentTyping && (
+          <div className="messageBubble agentBubble">
+            <BeatLoader size={8} color="#bbb" />
+          </div>
+        )}
+
+        <div ref={chatEndRef} />
+      </div>
+
+      <div className="textArea">
+        <div className="textAreaContainer">
+          <textarea ref={textAreaRef} 
+                    name="" 
+                    id="" 
+                    placeholder="What are we doing today boss?"
+                    onInput={handleInput}
+          />
+
+          <button className="enterButton" onClick={() => sendMessage(textAreaRef.current?.value ?? "")} disabled={isEnterButtonDisabled} >
+              {isEnterButtonDisabled ? (
+                <FaArrowCircleRight color={"gray"} size={38} />
+              ) : (
+                <FaArrowCircleRight color={"white"} size={38} />
+              )}
+          </button>
+        </div>
+      </div>
+      <div className="copyright">
+        <p>Designed and Developed by Eidan Then Elizo | Full Stack Developer</p>
       </div>
     </div>
   )

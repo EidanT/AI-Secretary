@@ -6,7 +6,9 @@ const WEBHOOK_URL = process.env.MESSAGE_WEBHOOK_URL;
 
 export async function handleSocketMessage(
   socket: Socket,
-  text: string
+  text: string,
+  name: string,
+  email: string
 ) {
 
   if (!process.env.MESSAGE_WEBHOOK_URL) {
@@ -41,6 +43,8 @@ export async function handleSocketMessage(
     },
     body: JSON.stringify({
       text,
+      name,
+      email,
       refresh_token: user.refresh_token,
       userId: user.google_id,
     }),

@@ -45,9 +45,9 @@ io.on("connection", (socket) => {
   const userId = socket.handshake.auth.userId;
   socket.data.userId = userId;
 
-  socket.on("send_message", async (data: { text: string }) => {
+  socket.on("send_message", async (data: { text: string, name: string, email: string }) => {
     console.log("send_message received:", data);
-    await handleSocketMessage(socket, data.text);
+    await handleSocketMessage(socket, data.text, data.name, data.email);
   });
 
   socket.on("disconnect", () => {
