@@ -1,20 +1,128 @@
-body {
-    background-color: rgb(217, 211, 211);
+.app-wrapper {
+    display: flex;
+    position: relative;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;   
 }
 
-h2 {
-    color: white;
-    font-size: 100px;
+.particles-bg {
+    display: flex;
+    position: fixed;  
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
 }
+
+.card-container {
+    display: flex;
+    position: relative;
+    width: 65%;
+    height: 65vh;
+    padding: 20px;
+    border-radius: 50px;
+    flex-direction: row;
+    background: rgba(67, 67, 67, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.451);
+}
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-start;
+    width: 50%;
+    margin: 30px;
+}
+
+.welcome-title {
+    font-size: 2rem;
+}
+
+.welcome-text {
+    font-size: 1.2rem;
+    text-align: justify;
+    width: 80%;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    color: white;
+}
+
+.animated-text-container {
+    position: relative;
+    display: flex;
+    background-color: rgb(31, 0, 77);
+    width: 90%;
+    border-radius: 30px;
+    padding: 20px 80px 20px 30px;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    align-items: center;
+    color: white;
+}
+
+.animated-text {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.enter-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    flex-shrink: 0;
+    margin-left: 16px;
+    border: none;
+    transform: translateY(-50%);
+}
+
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-self: flex-end;
+    width: 50%;
+    margin: 30px;
+}
+
+.signup-title {
+    font-size: 2rem;
+}
+
+.signup-text {
+    font-size: 1.2rem;
+    align-self: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    text-align: justify;
+    color: white;
+}   
 
 .signup-button {
-    padding: 10px 20px;
+    display: flex;
+    align-self: center;
+    padding: 15px 20px;
     font-size: 16px;
-    background-color: #4285F4;
+    background: none;
     color: white;
-    border: none;
-    border-radius: 4px;
+    border-color: rgb(31, 0, 77);
+    border-radius: 10px;
     cursor: pointer;
-    width: 500px;
-    height: 500px;
+    width: 50%;
+    height: 10%;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.signup-button:hover {
+    background-color: rgb(31, 0, 77);
 }

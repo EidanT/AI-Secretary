@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, Activity } from "react";
-import { FaSignOutAlt, FaArrowCircleRight } from "react-icons/fa"
+import { FaSignOutAlt, FaArrowCircleRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { BeatLoader } from "react-spinners";

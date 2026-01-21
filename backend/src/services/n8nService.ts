@@ -2,7 +2,6 @@ import fetch from "node-fetch";
 import { Socket } from "socket.io";
 import { collections } from "./databaseService";
 
-const WEBHOOK_URL = process.env.MESSAGE_WEBHOOK_URL;
 
 export async function handleSocketMessage(
   socket: Socket,
