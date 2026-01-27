@@ -5,8 +5,6 @@ import io from "socket.io-client";
 import { BeatLoader } from "react-spinners";
 import ReactMarkdown from "react-markdown";
 
-
-
 import './css/home.css'
 
 interface User {
@@ -24,7 +22,7 @@ type Message = {
 
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
 
-export default function Home() {
+export default function Home({ onLogout }: { onLogout: () => void }) {
   const [user, setUser] = useState<User | null>(null);
   const [show, setShow] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -36,7 +34,7 @@ export default function Home() {
 
 
   const navigate = useNavigate(); 
-  
+
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -45,8 +43,9 @@ export default function Home() {
   }, []);
   
   const handleExitButton = () => {
-    navigate("/signup");
     localStorage.removeItem("user");
+    onLogout();
+    navigate("/signup");
   };
   
   const handleInput = () => {
@@ -109,8 +108,10 @@ export default function Home() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isAgentTyping]);
   
-  if (!user) return <p>No hay usuario logueado</p>;
-  
+  if (!user) { 
+    return <p>No hay usuario logueado</p>; 
+  }
+
   const sendMessage = (text: string) => {
     const name = user.name;
     const email = user.email;
@@ -126,8 +127,6 @@ export default function Home() {
     socketRef.current.emit("send_message", { text, name, email });
   };
 
-  
-  
   return (
     <div>
       <header>

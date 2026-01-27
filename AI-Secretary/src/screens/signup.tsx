@@ -6,7 +6,7 @@ import "./css/signup.css";
 import Particles from "../component/animations/Particles/Particles";
 import TextType from "../component/animations/TextType/TextType";
 
-export default function Signup() {
+export default function Signup({ onLogin }: { onLogin: () => void }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,22 +19,23 @@ export default function Signup() {
     const exchangeCode = async () => {
       setLoading(true);
       try {
-        await fetch("http://localhost:3000/api/google", {
+        const res = await fetch("http://localhost:3000/api/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
-        })
-        .then(res => res.json())
-        .then(data => {
-          const { refresh_token, ...safeUser } = data.user;
-          localStorage.setItem("user", JSON.stringify(safeUser));
-          navigate("/");
-        })
+        });
+
+        const data = await res.json();
+        const { refresh_token, ...safeUser } = data.user;
+       
+        localStorage.setItem("user", JSON.stringify(safeUser));
+        onLogin();
+        navigate("/", { replace: true });
 
       } catch (err: any) {
-        setError(err.message);
+          setError(err.message);
       } finally {
-        setLoading(false);
+          setLoading(false);
       }
     };
 
@@ -114,7 +115,7 @@ export default function Signup() {
 
               <button className="signup-button" onClick={redirectToGoogle}>
                 <FaGoogle size={30}></FaGoogle>
-                <p>Sign up with Google</p>
+                Sign up with Google
               </button>
             </div>
 

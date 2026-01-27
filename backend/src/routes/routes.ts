@@ -4,6 +4,7 @@ import { collections } from "../services/databaseService";
 import dotenv from "dotenv";
 import path from "path";
 
+
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 const router = Router();
