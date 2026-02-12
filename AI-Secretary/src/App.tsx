@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Signup from './screens/signup';
 import Home from './screens/home';
 
-import './app.css'
+import './App.css'
 
 
 
