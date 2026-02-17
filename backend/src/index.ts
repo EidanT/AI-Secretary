@@ -15,7 +15,7 @@ const server = http.createServer(app);
 initSocket(server);
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.ORIGIN,
   credentials: true,
 }));
 
@@ -23,6 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+app.get("/", (req, res) => {
+  res.status(200).send("OK");
+});
+
 
 connectToDatabase()
   .then(() => {
