@@ -4,7 +4,6 @@ import { collections } from "../services/databaseService";
 import dotenv from "dotenv";
 import path from "path";
 
-
 dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 const router = Router();
@@ -24,7 +23,6 @@ router.post("/google", async (req, res) => {
   console.log("BODY:", req.body);
   const { code } = req.body;
   if (!code) return res.status(400).json({ error: "Missing code" });
-
   try {
     const tokenRes = await fetch("https://oauth2.googleapis.com/token", {
       method: "POST",
@@ -33,7 +31,7 @@ router.post("/google", async (req, res) => {
         code,
         client_id: process.env.GOOGLE_CLIENT_ID!,
         client_secret: process.env.GOOGLE_CLIENT_SECRET!,
-        redirect_uri: "http://localhost:5173/signup",
+        redirect_uri: process.env.REDIRECT_URI!,
         grant_type: "authorization_code",
       }),
     });
