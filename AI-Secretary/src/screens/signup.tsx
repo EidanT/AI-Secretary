@@ -19,7 +19,7 @@ export default function Signup({ onLogin }: { onLogin: () => void }) {
     const exchangeCode = async () => {
       setLoading(true);
       try {
-        const res = await fetch(import.meta.env.VITE_GOOGLE_REDIRECT_URI!, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/google`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
@@ -47,7 +47,7 @@ export default function Signup({ onLogin }: { onLogin: () => void }) {
       "https://accounts.google.com/o/oauth2/v2/auth?" +
       new URLSearchParams({
         client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID!,
-        redirect_uri: import.meta.env.VITE_REDIRECT_URI!,
+        redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI!,
         response_type: "code",
         scope: ["openid",
                 "email",
