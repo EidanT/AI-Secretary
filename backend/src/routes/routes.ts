@@ -2,9 +2,9 @@ import { Router } from "express";
 import fetch from "node-fetch";
 import { collections } from "../services/databaseService";
 import dotenv from "dotenv";
-import path from "path";
 
-dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
+dotenv.config()
+
 
 const router = Router();
 
@@ -35,6 +35,12 @@ router.post("/google", async (req, res) => {
         grant_type: "authorization_code",
       }),
     });
+
+    if (!tokenRes.ok) {
+      const errText = await tokenRes.text();
+      return res.status(400).json({ error: "Google token error", details: errText });
+    }
+
 
     const tokens = (await tokenRes.json()) as GoogleTokenResponse;
 
@@ -85,15 +91,15 @@ router.post("/google", async (req, res) => {
       } else {
         await collections.users?.updateOne(
           { google_id: user.google_id },
-          { $set: { user, updatedAt: new Date() } }
+          { $set: { ...user, updatedAt: new Date() } }
         );
       }
       
       res.json({ user });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Auth failed", details: err });
-    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Auth failed", details: err });
+  }
 });
 
 router.post("/message", (req, res) => {
