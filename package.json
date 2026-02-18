@@ -4,6 +4,7 @@
   },
   "name": "ai-secretary-root",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix AI-Secretary\" \"npm run dev --prefix backend\""
+    "dev": "concurrently \"npm run dev --prefix AI-Secretary\" \"npm run dev --prefix backend\"",
+    "start": "concurrently \"npm run preview --prefix AI-Secretary\" \"npm start --prefix backend\""
   }
 }
