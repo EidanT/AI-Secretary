@@ -19,7 +19,7 @@ export default function Signup({ onLogin }: { onLogin: () => void }) {
     const exchangeCode = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:3000/api/google", {
+        const res = await fetch(import.meta.env.VITE_GOOGLE_REDIRECT_URI!, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code }),
