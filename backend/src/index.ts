@@ -15,7 +15,11 @@ const server = http.createServer(app);
 initSocket(server);
 
 app.use(cors({
-  origin: process.env.ORIGIN,
+  origin: [
+    process.env.FRONTEND_ORIGIN,
+    process.env.BACKEND_ORIGIN
+
+  ].filter((origin): origin is string => Boolean(origin)),
   credentials: true,
 }));
 
