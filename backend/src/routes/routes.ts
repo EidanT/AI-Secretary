@@ -1,5 +1,4 @@
 import { Router } from "express";
-import fetch from "node-fetch";
 import { collections } from "../services/databaseService";
 import dotenv from "dotenv";
 
