@@ -7,4 +7,4 @@ COPY src ./src
 RUN npx tsc
 COPY .env.production ./
 EXPOSE 3000
-CMD ["node", "-r", "dotenv/config", "dist/index.js", "dotenv_config_path=.env.production"]
+CMD ["npm", "start"]
