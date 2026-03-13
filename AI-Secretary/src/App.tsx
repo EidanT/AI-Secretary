@@ -7,8 +7,6 @@ import Home from './screens/home';
 import './App.css'
 
 
-
-
 export default function App() {
   const [user, setUser] = useState(localStorage.getItem("user"));
 
